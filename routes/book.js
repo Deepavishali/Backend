@@ -1,10 +1,11 @@
 import express from "express";
 import { getBookId, PostBook, BookLanguage, UpdateBook } from '../query.js';
+import { auth } from "../middleware/auth.js";
 
 const router = express.Router();
 
 //books/id
-router.get("/:id", async (req, res) => {
+router.get("/:id", auth, async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const book = await getBookId(id);
@@ -28,7 +29,7 @@ router.post("/", async (req, res) => {
 
 //To get language and rating //
 
-router.get("/", async (req, res) => {
+router.get("/", auth, async (req, res) => {
     const { language, rating } = req.query;
     console.log(req.query, language);
     console.log(req.query, rating);
@@ -51,4 +52,4 @@ router.put("/:id", async (req, res) => {
     console.log(result);
 });
 
- export const bookrouter = router;
+export const bookrouter = router;
